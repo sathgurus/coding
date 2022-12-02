@@ -4,7 +4,7 @@ import {BrowserRouter,Routes,Route} from 'react-router-dom'
 import { Home } from './components/home';
 import { Add } from './components/Add';
 import { View } from './components/view';
-import { Edit } from './components/update';
+import { Update } from './components/update';
 
 
 function App() {
@@ -14,7 +14,7 @@ function App() {
       <Routes>
         <Route path='/' element={<Home/>}/>
         <Route path='/addemp' element={<Add/>}/>
-        <Route path='/Edit/:id' element={<Edit/>}/>
+        <Route path='/Edit/:id' element={<Update/>}/>
         {/* <Route path='//view/${value.id}' element={<View/>}/> */}
 
       </Routes>
