@@ -14,35 +14,7 @@ import { useState,useEffect } from 'react'
 
 export function Add(){
 
-    // const [state,setState]=useState(initialstate);
-
-    // const {name,email,date}=state;
-
-    // const handle=(e)=>{
-    //     e.preventDefault();
-
-    //     if(!name || !email || !date){
-    //         alert("please input the fields");
-    //     }
-    //     else{
-    //         axios.post("http://localhost:3002/api/post",{
-    //             name,
-    //             email,
-    //             date,
-    //         })
-    //         .then(()=>{
-    //             setState({name:'',email:'',date:''});
-    //         })
-    //         .catch((err)=>alert.error(err.rsponse.data));
-    //         alert("Employee Added successfully");
-    //         window.location.reload();
-    //     }
-    // };
-
-    // const handlechange=(e)=>{
-    //     const{name,value}=e.target;
-    //     setState({...state,[name]:value})
-    // }
+    
 
     const handle=async (event)=>{
         console.log("event",event.target.value)

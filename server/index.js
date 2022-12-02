@@ -87,36 +87,58 @@ app.delete("/delete/:id", (req,res) => {
 
 
 
-app.put('/update',(req,response)=>{
-    const name=req.body.name
-    const email=req.email
-    const date=req.date
+// app.put('/update',(req,response)=>{
+//     const name=req.body.name
+//     const email=req.email
+//     const date=req.date
 
-    let slq =`UPDATE emp SET name=?,email=?,doj=? where id=?`;
-    con.query(sql,[name,email,date],(err,res)=>{
-        if(err){
-            let s={"status":"err"}
-            res.send(s);
+//     let slq =`UPDATE emp SET name=?,email=?,doj=? where id=?`;
+//     con.query(sql,[name,email,date],(err,res)=>{
+//         if(err){
+//             let s={"status":"err"}
+//             res.send(s);
+//         }
+//         else{
+//             let s={'status':"updated"}
+//             res.send(s);
+//         }
+//     })
+// })
+
+app.get('/Edit/:id',(request,response)=>{
+    let {id} = request.params;
+    console.log("req",id)
+    let sql= 'SELECT * FROM emp WHERE id=?';
+    con.query(sql,[id],(error,result)=>{
+        if(error){
+            response.send(error);
         }
         else{
-            let s={'status':"updated"}
-            res.send(s);
+            console.log('result',result)
+            response.send(result);
         }
     })
 })
 
-app.get('/edit/:id',(req,res)=>{
-    const {id}=req.params;
-    let sql=`SELECT * FROM emp WHERE id=${id}`;
-     con.query(sql,(err,res)=>{
-        if(err){
-            console.log(err);
+app.put('/Update/:id',(request,response)=>{
+    let {name,email,date} = request.body;
+    let {id} = request.params;
+    
+    let sql = 'UPDATE emp SET name=?,email=?,date=? WHERE  id=? ';
+
+    con.query(sql,[id,name,email,date],(error,result)=>{
+        if(error){
+            let s = {"status":"error"};
+            response.send(s);
         }
         else{
-            res.send(res);
+            let s = {"status":"success"};
+            response.send(s);
         }
-     });
-});
+    })
+
+})
+
 
 
 app.listen(3002);
