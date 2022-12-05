@@ -43,7 +43,7 @@ export function Update() {
             date: date
         }
 
-        await axios.put('http://localhost:3002/update/', newVal)
+        await axios.put('http://localhost:3002/update/?id='+id,newVal)
             .then(function (res) {
                 if (res.data.status === 'success') {
                     alert('updated');
@@ -72,7 +72,7 @@ export function Update() {
                     <div className='col-lg-4'>&nbsp;</div>
 
                     <div className='col-lg-4 pt-5'>
-                        <form className='form ' onSubmit={handle}>
+                        <form className='form' onSubmit={handle}>
                             <label>Enter your Name </label><br></br>
                             <input type='text' name='name' id='name' placeholder='Enter your name..' className='form-control' value={name} onChange={(e) => setName(e.target.value)} /><br></br>
 
@@ -82,7 +82,7 @@ export function Update() {
                             <label>Date_of_Joining </label><br></br>
                             <input type='date' name='Doj' id='date' placeholder='Enter your email..' className='form-control' value={date} onChange={(e) => setDate(e.target.value)} />
 
-                            <input type='submit' value={id? "update":"save"} className='btn btn-success mt-5' />
+                            <input type='submit' value="update" className='btn btn-success mt-5' />
 
                             <Link to='/' >
                                 <input type='button' value='GoBack' className='btn btn-dark btn-group ml-3 mt-5' />

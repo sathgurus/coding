@@ -1,25 +1,25 @@
-const express=require("express")
-const mysql=require("mysql")
-const cors=require("cors")
-const bodyparser=require("body-parser")
+const express = require("express")
+const mysql = require("mysql")
+const cors = require("cors")
+const bodyparser = require("body-parser")
 
-const app=express();
+const app = express();
 
 app.use(cors());
 app.use(bodyparser.json());
 app.use(express.json());
-app.use(bodyparser.urlencoded({extended:false}));
+app.use(bodyparser.urlencoded({ extended: false }));
 app.use(express.static('public'));
 
-const con=mysql.createConnection({
-    host:'localhost',
-    user:'root',
-    password:'adol@#tech',
-    database:'employee'
+const con = mysql.createConnection({
+    host: 'localhost',
+    user: 'root',
+    password: 'adol@#tech',
+    database: 'employee'
 });
 
-con.connect(function(err){
-    if(err) throw err;
+con.connect(function (err) {
+    if (err) throw err;
     console.log("connected");
     // const sql="INSERT INTO emp(name,email,doj) VALUES ('sawfon','sawfon@gmail.com','2021/10/01')";
     // con.query(sql,function(err){
@@ -28,10 +28,9 @@ con.connect(function(err){
     // });
 });
 
-app.get("/get",(req,res)=>
-{
-    const sqlget="SELECT * FROM emp";
-    con.query(sqlget,(error,result)=>{
+app.get("/get", (req, res) => {
+    const sqlget = "SELECT * FROM emp";
+    con.query(sqlget, (error, result) => {
         res.send(result);
     });
 });
@@ -47,23 +46,25 @@ app.get("/get",(req,res)=>
 // });
 
 
-app.post("/api/post",(req,res)=>{
-    console.log('req',req);
-    console.log('req.body',req.body);
-    let name1=req.body.name;
-    let email1=req.body.email;
-    let date1=req.body.date;
-    
-    const sql="INSERT INTO emp(name,email,doj) VALUES(?,?,?)";
-    con.query(sql,[name1,email1,date1],(error,result)=>{
-        if(error){let s={"status":"error"};
-        console.log(error);
-    res.send(s);
-}
-    else{let s={"status":"inserted"};
-    console.log(result);
-    res.send(s);
-}
+app.post("/api/post", (req, res) => {
+    console.log('req', req);
+    console.log('req.body', req.body);
+    let name1 = req.body.name;
+    let email1 = req.body.email;
+    let date1 = req.body.date;
+
+    const sql = "INSERT INTO emp(name,email,doj) VALUES(?,?,?)";
+    con.query(sql, [name1, email1, date1], (error, result) => {
+        if (error) {
+            let s = { "status": "error" };
+            console.log(error);
+            res.send(s);
+        }
+        else {
+            let s = { "status": "inserted" };
+            console.log(result);
+            res.send(s);
+        }
     });
 
 });
@@ -71,17 +72,19 @@ app.post("/api/post",(req,res)=>{
 
 
 
-app.delete("/delete/:id", (req,res) => {
-    const {id}=req.params;
-    const sqldelete="DELETE FROM emp WHERE id=?";
+app.delete("/delete/:id", (req, res) => {
+    const { id } = req.params;
+    const sqldelete = "DELETE FROM emp WHERE id=?";
 
-    con.query(sqldelete, id, (error,result)=>{
-        if(error){let s={"status":"error"};
-    res.send(s);
-}
-    else{let s={"status":"deleted"};
-    res.send(s);
-}
+    con.query(sqldelete, id, (error, result) => {
+        if (error) {
+            let s = { "status": "error" };
+            res.send(s);
+        }
+        else {
+            let s = { "status": "deleted" };
+            res.send(s);
+        }
     });
 });
 
@@ -105,34 +108,38 @@ app.delete("/delete/:id", (req,res) => {
 //     })
 // })
 
-app.get('/Edit/:id',(request,response)=>{
-    let {id} = request.params;
-    console.log("req",id)
-    let sql= 'SELECT * FROM emp WHERE id=?';
-    con.query(sql,[id],(error,result)=>{
-        if(error){
+app.get('/Edit/:id', (request, response) => {
+    let { id } = request.params;
+    console.log("req", id)
+    let sql = 'SELECT * FROM emp WHERE id=?';
+    con.query(sql, [id], (error, result) => {
+        if (error) {
             response.send(error);
         }
-        else{
-            console.log('result',result)
+        else {
+            console.log('result', result)
             response.send(result);
         }
     })
 })
 
-app.put('/Update/:id',(request,response)=>{
-    let {name,email,date} = request.body;
-    let {id} = request.params;
-    
-    let sql = 'UPDATE emp SET name=?,email=?,date=? WHERE  id=? ';
+app.put('/update', (request, response) => {
+    console.log("body", request.body)
+    console.log("query", request.query)
+    let { name, email, date } = request.body;
+    let { id } = request.query;
 
-    con.query(sql,[id,name,email,date],(error,result)=>{
-        if(error){
-            let s = {"status":"error"};
+    let sql = 'UPDATE emp SET name=?,email=?,doj=? WHERE  id=? ';
+
+    con.query(sql, [name, email, date, id], (error, result) => {
+        console.log("result",result)
+        console.log("error",error)
+        if (error) {
+            let s = { "status": "error" };
             response.send(s);
         }
-        else{
-            let s = {"status":"success"};
+        else {
+            let s = { "status": "success" };
             response.send(s);
         }
     })
